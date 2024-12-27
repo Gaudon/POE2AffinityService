@@ -16,8 +16,4 @@ This project aims to improve the stability of the game Path of Exile 2 on certai
 ## Installation
 
 1. Download and extract the latest release from the [Releases](https://github.com/Gaudon/POE2AffinityService/releases) page.
-2. Run the `POE2AffinityService.exe` file to start the service.
-
-## Usage
-
-Run the service as an admin and it will monitor for the Path of Exile 2 process. When it detects the process, it will set the CPU affinity to exclude the first two CPU cores.
+2. Run the `POE2AffinityService.exe` file (as admin if you have issues) to start the service.
