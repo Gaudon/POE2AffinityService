@@ -43,7 +43,7 @@ jobs:
         }
 
     - name: Build and Publish as Single File
-      run: dotnet publish --configuration Release --self-contained --runtime win-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishDir=publish
+      run: dotnet publish --configuration Release --framework net8.0 --runtime win-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishDir=publish
 
     - name: Release
       uses: softprops/action-gh-release@v1
