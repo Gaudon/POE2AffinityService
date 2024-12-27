@@ -7,14 +7,8 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        if (args.Length > 0 && args[0] == "--install")
-        {
-            InstallService();
-        }
-        else
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+        Console.Title = "POE2 Affinity Service";
+        CreateHostBuilder(args).Build().Run();
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
