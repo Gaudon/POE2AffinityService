@@ -10,7 +10,7 @@ This project aims to improve the stability of the game Path of Exile 2 on certai
 
 ## Requirements
 
-- .NET 8.0 Runtime
+- [.NET 8.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 - Windows OS (64-bit)
 
 ## Installation
