@@ -1,11 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Management;
-using System.Threading;
-using System.Threading.Tasks;
 
 public class POE2AffinityService : BackgroundService
 {

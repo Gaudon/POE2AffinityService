@@ -23,24 +23,4 @@ public class Program
             logging.AddConsole();
         })
         .UseWindowsService();
-
-
-    private static void InstallService()
-    {
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = "sc.exe",
-            Arguments = $"create POE2AffinityService binPath= \"{System.Reflection.Assembly.GetExecutingAssembly().Location}\"",
-            Verb = "runas",
-            UseShellExecute = true
-        })?.WaitForExit();
-
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = "sc.exe",
-            Arguments = "start POE2AffinityService",
-            Verb = "runas",
-            UseShellExecute = true
-        })?.WaitForExit();
-    }
 }
