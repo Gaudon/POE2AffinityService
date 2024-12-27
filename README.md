@@ -20,10 +20,4 @@ This project aims to improve the stability of the game Path of Exile 2 on certai
 
 ## Usage
 
-The service will automatically start and monitor for the Path of Exile process. When it detects the process, it will set the CPU affinity to exclude the first two CPU cores.
-
-## Development
-
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/yourusername/PoE-CPUAffinityManager.git
+Run the service as an admin and it will monitor for the Path of Exile 2 process. When it detects the process, it will set the CPU affinity to exclude the first two CPU cores.
