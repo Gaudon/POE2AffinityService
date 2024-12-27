@@ -32,8 +32,14 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Create publish directory 
-      run: mkdir -p ./publish
+    - name: Ensure Publish Directory Exists
+      run: mkdir -p publish
+
+    - name: Ensure CHANGELOG.md Exists
+      run: |
+        if [ ! -f CHANGELOG.md ]; then
+          echo "# Changelog" > CHANGELOG.md
+        fi
 
     - name: Build and Publish as Single File
       run: dotnet publish --configuration Release --self-contained --runtime win-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishDir=publish
