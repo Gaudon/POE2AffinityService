@@ -3,12 +3,14 @@ name: Build and Release
 on:
   push:
     tags:
-      - 'v*.*.*'  # Trigger the workflow on new tags matching this pattern
-    branches: [ "main" ]
+      - 'v*.*.*'
+    branches:
+      - main
   pull_request:
     tags:
-      - 'v*.*.*'  # Trigger the workflow on new tags matching this pattern
-    branches: [ "main" ]
+      - 'v*.*.*'
+    branches:
+      - main
 
 jobs:
   build:
