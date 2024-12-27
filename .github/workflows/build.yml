@@ -41,22 +41,53 @@ jobs:
     - name: Build and Publish as Single File
       run: dotnet publish --configuration Release --output ./publish --self-contained --runtime win-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true
 
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
+    - name: Check Release Exists
+      id: check_release
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const { data: releases } = await github.repos.listReleases({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          });
+          const release = releases.find(release => release.tag_name === context.ref.split('/').pop());
+          return release ? { id: release.id, exists: true, upload_url: release.upload_url } : { exists: false };
+
+    - name: Create or Update Release
+      id: create_or_update_release
+      uses: actions/github-script@v6
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref_name }}
-        draft: false
-        prerelease: false
+        script: |
+          if (steps.check_release.outputs.exists === 'true') {
+            github.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: steps.check_release.outputs.id,
+              tag_name: context.ref.split('/').pop(),
+              name: 'Release ' + context.ref.split('/').pop(),
+              draft: false,
+              prerelease: false,
+            });
+          } else {
+            const release = await github.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: context.ref.split('/').pop(),
+              name: 'Release ' + context.ref.split('/').pop(),
+              draft: false,
+              prerelease: false,
+            });
+            return { upload_url: release.data.upload_url };
+          }
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        upload_url: ${{ steps.create_or_update_release.outputs.upload_url }}
         asset_path: ./publish/POE2AffinityService.exe
         asset_name: POE2AffinityService.exe
         asset_content_type: application/octet-stream
