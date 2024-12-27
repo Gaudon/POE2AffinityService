@@ -10,13 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="PathOfExile_x64Steam.exe" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="9.0.0" />
-    <PackageReference Include="System.Management" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
   </ItemGroup>
 
 </Project>
