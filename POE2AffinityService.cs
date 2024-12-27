@@ -46,7 +46,11 @@ public class POE2AffinityService : BackgroundService
                 if (proc != null)
                 {
                     _logger.LogInformation($"Found process: {proc.ProcessName.Replace(".exe", "")} (PID: {proc.Id})");
-                    proc.ProcessorAffinity = new IntPtr(0xFC); // Excluding cores 0 and 1 (binary 11111100)
+                    // Get the number of logical processors
+                    int processorCount = Environment.ProcessorCount;
+                    long coreMask = (1L << processorCount) - 1; 
+                    coreMask &= ~0b11L; // Disable cores 0 and 1
+                    proc.ProcessorAffinity = new IntPtr(coreMask);
                 } else
                 {
                     _logger.LogInformation($"Failed to get process: {proc.ProcessName} (PID: {proc.Id})");
