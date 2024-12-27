@@ -36,7 +36,7 @@ jobs:
       run: mkdir -p ./publish
 
     - name: Build and Publish as Single File
-      run: dotnet publish --configuration Release --self-contained --runtime win-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishDir=./publish
+      run: dotnet publish --configuration Release --self-contained --runtime win-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishDir=publish
 
     - name: Release
       uses: actions/create-release@v1
@@ -56,6 +56,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./publish/POE2AffinityService.exe
+        asset_path: publish/POE2AffinityService.exe
         asset_name: POE2AffinityService.exe
         asset_content_type: application/octet-stream
