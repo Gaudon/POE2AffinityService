@@ -32,30 +32,22 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Create publish directory 
-      run: mkdir -p ./publish
+    - name: Ensure Publish Directory Exists
+      run: mkdir -p publish
+
+    - name: Ensure CHANGELOG.md Exists
+      shell: pwsh
+      run: |
+        if (-Not (Test-Path "CHANGELOG.md")) {
+          New-Item -ItemType File -Path "CHANGELOG.md" -Value "# Changelog"
+        }
 
     - name: Build and Publish as Single File
       run: dotnet publish --configuration Release --self-contained --runtime win-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishDir=publish
 
     - name: Release
-      uses: actions/create-release@v1
-      id: create_release
+      uses: softprops/action-gh-release@v1
       with:
-        draft: false
-        prerelease: false
-        release_name: ${{ steps.version.outputs.version }}
-        tag_name: ${{ github.ref }}
-        body_path: CHANGELOG.md
+        files: publish/POE2AffinityService.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Upload Release Artifact
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: publish/POE2AffinityService.exe
-        asset_name: POE2AffinityService.exe
-        asset_content_type: application/octet-stream
