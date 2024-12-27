@@ -16,4 +16,4 @@ This project aims to improve the stability of the game Path of Exile 2 on certai
 ## Installation
 
 1. Download and extract the latest release from the [Releases](https://github.com/Gaudon/POE2AffinityService/releases) page.
-2. Run the `POE2AffinityService.exe` file (as admin if you have issues) to start the service.
+2. Run the `POE2AffinityService.exe` file as administrator to start the service (Admin is required to modify processor affinity settings).
