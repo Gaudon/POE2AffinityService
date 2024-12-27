@@ -2,14 +2,16 @@ name: Build and Release
 
 on:
   push:
+    tags:
+      - 'v*.*.*'  # Trigger the workflow on new tags matching this pattern
     branches: [ "main" ]
   pull_request:
+    tags:
+      - 'v*.*.*'  # Trigger the workflow on new tags matching this pattern
     branches: [ "main" ]
 
 jobs:
-
   build:
-
     strategy:
       matrix:
         configuration: [Release]
@@ -17,7 +19,7 @@ jobs:
     runs-on: windows-latest
 
     env:
-      Solution_Name: POE2AffinityService                         # Replace with your solution name, i.e. MyWpfApp.sln.
+      Solution_Name: POE2AffinityService
     
     steps:
     - name: Checkout
@@ -38,11 +40,8 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-
-    - name: Publish
-      run: dotnet publish --configuration Release --output ./publish --no-build
+    - name: Build and Publish as Single File
+      run: dotnet publish --configuration Release --output ./publish --self-contained --runtime win-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true
 
     - name: Create Release
       id: create_release
