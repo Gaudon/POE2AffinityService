@@ -41,7 +41,7 @@ jobs:
     - name: Build and Publish as Single File
       run: dotnet publish --configuration Release --output ./publish --self-contained --runtime win-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true
 
-    - name: Check Release Exists
+    - name: Check if Release Exists
       id: check_release
       uses: actions/github-script@v6
       with:
@@ -50,8 +50,12 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
           });
-          const release = releases.find(release => release.tag_name === context.ref.split('/').pop());
-          return release ? { id: release.id, exists: true, upload_url: release.upload_url } : { exists: false };
+          const release = releases.find(release => release.tag_name === context.ref.replace('refs/tags/', ''));
+          if (release) {
+            return { id: release.id, exists: true, upload_url: release.upload_url };
+          } else {
+            return { exists: false };
+          }
 
     - name: Create or Update Release
       id: create_or_update_release
@@ -60,13 +64,14 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         script: |
+          const tagName = context.ref.replace('refs/tags/', '');
           if (steps.check_release.outputs.exists === 'true') {
-            github.repos.updateRelease({
+            await github.repos.updateRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: steps.check_release.outputs.id,
-              tag_name: context.ref.split('/').pop(),
-              name: 'Release ' + context.ref.split('/').pop(),
+              tag_name: tagName,
+              name: 'Release ' + tagName,
               draft: false,
               prerelease: false,
             });
@@ -74,8 +79,8 @@ jobs:
             const release = await github.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: context.ref.split('/').pop(),
-              name: 'Release ' + context.ref.split('/').pop(),
+              tag_name: tagName,
+              name: 'Release ' + tagName,
               draft: false,
               prerelease: false,
             });
