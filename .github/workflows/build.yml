@@ -43,7 +43,7 @@ jobs:
         }
 
     - name: Build Project using MSBuild
-      run: msbuild /p:Configuration=Release /p:TargetFramework=net8.0 /p:RuntimeIdentifier=win-x64 /p:PublishDir=publish/cli /t:Publish
+      run: msbuild /p:Configuration=Release /p:TargetFramework=net8.0 /p:RuntimeIdentifier=win-x64 /p:PublishDir=publish /t:Publish
       
     - name: Release
       uses: softprops/action-gh-release@v1
