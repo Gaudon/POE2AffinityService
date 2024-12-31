@@ -1,6 +1,9 @@
 # Path of Exile 2 CPU Affinity Manager
 
-This project aims to improve the stability of the game Path of Exile 2 on certain systems by monitoring the game process and restricting its access to specific CPU cores. This temporary solution is intended to help users experience fewer crashes and performance issues until Grinding Gear Games releases an official patch to address the problem.
+This project aims to improve the stability of the game Path of Exile 2 on certain systems by monitoring the game process and restricting its access to specific CPU cores. This temporary solution is intended to help users experience fewer system crashes and performance issues until Grinding Gear Games releases an official patch to address the problem.
+
+**NOTE:**
+This will not entirely prevent POE2 from crashing. It should prevent POE2 from crashing your entire system. In my experience, in collaboration with this tool players should *ALWAYS* disable Game Engine Multi-Threading in POE2 Game Options prior to zoning into a map for the first time. This has drastically reduced my crashing but is quite annoying!
 
 ## Features
 
